@@ -219,6 +219,8 @@ h2 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
 mark { background: #fde68a; color: inherit; border-radius: 2px; padding: 0 1px; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) mark { background: #6b5310; } }
 .vazio-msg { padding: 28px 16px; text-align: center; color: var(--tinta-3); background: var(--cartao); border: 1px dashed var(--linha-forte); border-radius: 12px; }
+.convite { color: var(--tinta-2); line-height: 1.6; }
+.convite strong { color: var(--tinta); }
 .mais { display: block; width: 100%; height: 48px; margin-top: 12px; border: 1px solid var(--linha-forte); border-radius: 10px; background: var(--cartao); color: var(--tinta); font: inherit; font-weight: 600; cursor: pointer; }
 
 /* sobre + rodapé */

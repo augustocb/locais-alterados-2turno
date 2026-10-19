@@ -193,6 +193,14 @@
   }
 
   function renderLista() {
+    if (!estado.uf && !norm(estado.q)) {
+      $('#contagem').textContent = '';
+      $('#lista').replaceChildren(el('li', { class: 'vazio-msg convite' },
+        el('strong', { text: 'Procure sua cidade, seu local de votação ou o número da sua seção.' }),
+        el('br'), 'Você também pode escolher um estado no filtro acima, no mapa de estados ou tocando num ponto do mapa.'));
+      $('#mais').hidden = true;
+      return;
+    }
     const total = filtradas.length;
     const secoes = filtradas.reduce((s, m) => s + m.secoes.length, 0);
     const eleit = filtradas.reduce((s, m) => s + m.eleitores, 0);
