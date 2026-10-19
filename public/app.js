@@ -273,7 +273,6 @@
       const secoes = lista.reduce((s, m) => s + m.secoes.length, 0);
       const r = Math.min(26, 5 + Math.sqrt(secoes) * 2.4);
       L.circleMarker([mun.lat, mun.lon], { radius: r, color: '#ffffff', weight: 1.5, fillColor: cor, fillOpacity: 0.78 })
-        .bindTooltip(`${titulo(mun.nome)} · ${mun.uf}: ${fmt.format(secoes)} ${secoes === 1 ? 'seção' : 'seções'}`, { direction: 'top' })
         .bindPopup(() => popup(mun, lista), { maxWidth: 300 })
         .addTo(camada);
       pontos.push([mun.lat, mun.lon]);
