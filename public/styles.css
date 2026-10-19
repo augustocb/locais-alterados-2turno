@@ -132,7 +132,7 @@ h2 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
 @media (min-width: 560px) { .barras { columns: 2; } }
 .barras li { break-inside: avoid; }
 .barra {
-  display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 10px;
+  display: grid; grid-template-columns: 34px minmax(0, 1fr) 9.5em; align-items: center; gap: 10px;
   width: 100%; padding: 5px 4px; border: 0; border-radius: 6px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
 }
 .barra:hover { background: var(--cartao); }

@@ -188,7 +188,7 @@ function rua(end) {
 function tipoMudanca(endDe, endPara) {
   if (!endPara) return 'sem_endereco';
   if (!endDe) return 'endereco_diferente';
-  if (norm(endDe) === norm(endPara)) return 'mesma_rua';
+  if (norm(endDe) === norm(endPara)) return 'mesmo_endereco';
   const a = rua(endDe), b = rua(endPara);
   if (a.length > 5 && b.length > 5 && similaridade(a, b) >= 0.85) return 'mesma_rua';
   return 'endereco_diferente';

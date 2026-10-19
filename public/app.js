@@ -21,7 +21,8 @@
   const TIPOS = {
     endereco_diferente: { rotulo: 'Outro endereço', classe: 'selo-diferente' },
     sem_endereco: { rotulo: 'Novo local', classe: 'selo-sem' },
-    mesma_rua: { rotulo: 'Mesmo endereço ou rua', classe: 'selo-mesma' },
+    mesmo_endereco: { rotulo: 'Mesmo endereço', classe: 'selo-mesma' },
+    mesma_rua: { rotulo: 'Mesma rua', classe: 'selo-mesma' },
   };
   const POR_PAGINA = 40;
 
@@ -108,7 +109,7 @@
       },
       el('span', { class: 'barra-uf', text: u.uf }),
       el('span', { class: 'barra-trilho' }, el('span', { class: 'barra-preenchido', style: `width:${(100 * u.secoes / max).toFixed(1)}%` })),
-      el('span', { class: 'barra-num' }, fmt.format(u.secoes), el('small', { text: ` · ${fmt.format(u.eleitores)} eleit.` }))))));
+      el('span', { class: 'barra-num' }, fmt.format(u.secoes), el('small', { text: ` · ${fmt.format(u.eleitores)} eleitores` }))))));
 
     const semAlteracao = Object.keys(GRADE).filter((uf) => !porUF[uf]);
     $('#legenda').replaceChildren(
@@ -147,7 +148,7 @@
     const termos = norm(estado.q).split(' ').filter(Boolean);
     return dados.mudancas.filter((m) => {
       if (estado.uf && m.uf !== estado.uf) return false;
-      if (estado.ocultarMesma && m.tipo === 'mesma_rua') return false;
+      if (estado.ocultarMesma && m.tipo === 'mesmo_endereco') return false;
       return termos.every((t) => (/^\d+$/.test(t) ? m._nums.has(String(Number(t))) || m._texto.includes(` ${t} `) : m._texto.includes(t)));
     });
   }
