@@ -45,6 +45,8 @@
 
   const estado = { q: '', uf: '', ocultarMesma: false, limite: POR_PAGINA };
   let dados, filtradas = [], mapa = null, camada = null, municipiosPorId = new Map();
+  const BRASIL = [[-33.8, -73.9], [5.3, -34.8]];
+  let enquadramento = BRASIL;
 
   // ---------- estado na URL (para compartilhar um filtro) ----------
   function lerURL() {
@@ -219,7 +221,17 @@
     const temCoord = dados.municipios.some((m) => m.lat != null);
     if (!temCoord) { aviso.hidden = false; aviso.textContent = 'As coordenadas dos municípios não estão disponíveis nesta versão dos dados.'; }
 
-    mapa = L.map('mapa', { scrollWheelZoom: false, zoomSnap: 0.5, attributionControl: true }).fitBounds([[-33.8, -73.9], [5.3, -34.8]]);
+    mapa = L.map('mapa', {
+      scrollWheelZoom: false, zoomSnap: 0.25, minZoom: 3,
+      maxBounds: [[-45, -95], [18, -15]], maxBoundsViscosity: 0.9,
+    });
+    enquadrar(BRASIL);
+    // no celular o tamanho final da área do mapa só sai depois do layout: recalcula sempre que mudar
+    if ('ResizeObserver' in window) {
+      let t;
+      new ResizeObserver(() => { clearTimeout(t); t = setTimeout(() => enquadrar(enquadramento), 120); }).observe($('#mapa'));
+    }
+    window.addEventListener('load', () => enquadrar(enquadramento));
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">colaboradores do OpenStreetMap</a>',
@@ -266,10 +278,14 @@
         .addTo(camada);
       pontos.push([mun.lat, mun.lon]);
     }
-    if (ajustar) {
-      if (pontos.length) mapa.fitBounds(L.latLngBounds(pontos).pad(0.25), { maxZoom: 9 });
-      else mapa.fitBounds([[-33.8, -73.9], [5.3, -34.8]]);
-    }
+    if (ajustar) enquadrar(pontos.length ? L.latLngBounds(pontos) : BRASIL);
+  }
+
+  function enquadrar(limites) {
+    if (!mapa) return;
+    enquadramento = limites;
+    mapa.invalidateSize(false);
+    mapa.fitBounds(limites, { padding: [24, 24], maxZoom: 9, animate: false });
   }
 
   // ---------- eventos ----------
@@ -300,7 +316,7 @@
     renderEstados();
     iniciarMapa();
     ligar();
-    aplicar({ ajustarMapa: Boolean(estado.uf || estado.q) });
+    aplicar({ ajustarMapa: true });
   }
 
   iniciar();

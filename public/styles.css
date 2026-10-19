@@ -180,7 +180,7 @@ h2 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
   .painel { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; gap: 28px; }
   .mapa-wrap { position: sticky; top: 92px; }
 }
-#mapa { height: 360px; border-radius: 12px; border: 1px solid var(--linha); background: var(--vazio); z-index: 0; }
+#mapa { height: min(70vh, 460px); border-radius: 12px; border: 1px solid var(--linha); background: var(--vazio); z-index: 0; }
 @media (min-width: 960px) { #mapa { height: calc(100vh - 140px); max-height: 720px; min-height: 480px; } }
 .mapa-wrap { position: relative; }
 .mapa-aviso {
