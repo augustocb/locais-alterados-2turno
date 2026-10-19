@@ -35,6 +35,6 @@ Para conferir antes de publicar: `npm run build` (precisa do Node 18 ou mais nov
 - **Pontos do mapa:** ficam no centro de cada município (coordenadas da base pública [kelvins/municipios-brasileiros](https://github.com/kelvins/municipios-brasileiros)), com tamanho proporcional ao número de seções. Depois do primeiro `npm run build` local, faça commit de `dados/municipios.csv` para o build não depender do download.
 - **Endereços:** vêm dos dados de votação por seção do 1º turno (TSE). Um local que não funcionou no 1º turno aparece como “endereço não informado”.
 - **Tipo de mudança:** “Mesmo endereço ou rua”, “Outro endereço” ou “Novo local” (sem endereço para comparar), definido pela comparação do texto dos endereços.
-- **Mapa base:** CARTO + OpenStreetMap (gratuito com atribuição, até 75 mil visualizações de mapa por mês). Com mais tráfego que isso, troque a URL dos tiles em `public/app.js`.
+- **Mapa base:** OpenStreetMap (sem chave; exige manter a atribuição). A política de uso do OSM não permite tráfego muito alto: se o site passar de dezenas de milhares de visitas por dia, troque a URL dos tiles em `public/app.js` por um provedor com chave (MapTiler, Stadia, CARTO).
 - **Filtros compartilháveis:** a busca e o estado ficam no endereço da página (ex.: `.../#uf=BA&q=jequie`).
 - Esta página é independente e não oficial. A orientação ao eleitor é sempre confirmar no Autoatendimento Eleitoral do TSE ou no e-Título.

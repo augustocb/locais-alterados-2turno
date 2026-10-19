@@ -219,10 +219,9 @@
     if (!temCoord) { aviso.hidden = false; aviso.textContent = 'As coordenadas dos municípios não estão disponíveis nesta versão dos dados.'; }
 
     mapa = L.map('mapa', { scrollWheelZoom: false, zoomSnap: 0.5, attributionControl: true }).fitBounds([[-33.8, -73.9], [5.3, -34.8]]);
-    const escuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    L.tileLayer(`https://{s}.basemaps.cartocdn.com/${escuro ? 'dark_all' : 'light_all'}/{z}/{x}/{y}{r}.png`, {
-      subdomains: 'abcd', maxZoom: 18,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">colaboradores do OpenStreetMap</a>',
     }).addTo(mapa);
     camada = L.layerGroup().addTo(mapa);
     mapa.on('focus', () => mapa.scrollWheelZoom.enable());

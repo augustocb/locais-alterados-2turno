@@ -172,6 +172,9 @@ function acharCoordenada(municipios, uf, nome) {
   const alvo = norm(nome);
   const exato = lista.find((m) => m.chave === alvo);
   if (exato) return exato;
+  // nomes abreviados pelo TSE (ex.: "BOM JESUS" → "BOM JESUS DE GOIÁS")
+  const prefixo = lista.filter((m) => m.chave.startsWith(`${alvo} `));
+  if (prefixo.length === 1) return prefixo[0];
   let melhor = null, nota = 0;
   for (const m of lista) { const s = similaridade(alvo, m.chave); if (s > nota) { nota = s; melhor = m; } }
   return nota >= 0.85 ? melhor : null;

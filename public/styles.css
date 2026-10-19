@@ -221,6 +221,10 @@ mark { background: #fde68a; color: inherit; border-radius: 2px; padding: 0 1px; 
 .rodape { border-top: 1px solid var(--linha); padding: 18px 0 32px; font-size: 13px; color: var(--tinta-3); }
 
 /* leaflet */
+.leaflet-tile-pane { filter: saturate(0.35) contrast(0.95); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.85) contrast(0.9); }
+}
 .leaflet-container { font: inherit; background: var(--vazio); }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--cartao); color: var(--tinta); box-shadow: var(--sombra), 0 0 0 1px var(--linha); }
 .leaflet-popup-content { margin: 12px 14px; font-size: 14px; line-height: 1.45; }
