@@ -230,7 +230,7 @@
     if (!temCoord) { aviso.hidden = false; aviso.textContent = 'As coordenadas dos municípios não estão disponíveis nesta versão dos dados.'; }
 
     mapa = L.map('mapa', {
-      scrollWheelZoom: false, zoomSnap: 0.25, minZoom: 3,
+      scrollWheelZoom: true, wheelPxPerZoomLevel: 90, zoomSnap: 0.25, minZoom: 3,
       maxBounds: [[-45, -95], [18, -15]], maxBoundsViscosity: 0.9,
     });
     enquadrar(BRASIL);
@@ -245,8 +245,6 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">colaboradores do OpenStreetMap</a>',
     }).addTo(mapa);
     camada = L.layerGroup().addTo(mapa);
-    mapa.on('focus', () => mapa.scrollWheelZoom.enable());
-    mapa.on('blur', () => mapa.scrollWheelZoom.disable());
   }
 
   function popup(mun, lista) {
