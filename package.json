@@ -1,0 +1,12 @@
+{
+  "name": "locais-votacao-alterados-2turno",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mapa e lista das seções eleitorais que mudaram de local para o 2º turno de 2026 (dados do TSE).",
+  "scripts": {
+    "build": "node scripts/gerar-dados.mjs",
+    "dev": "node scripts/gerar-dados.mjs && npx --yes serve public"
+  },
+  "engines": { "node": ">=18" }
+}

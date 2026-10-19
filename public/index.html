@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Locais de votação alterados · 2º turno 2026</title>
+  <meta name="description" content="Mapa e lista das seções eleitorais que vão votar em outro local no 2º turno de 2026, com base nos dados do TSE. Busque por cidade, local ou seção.">
+  <meta property="og:title" content="Seu local de votação mudou? · 2º turno 2026">
+  <meta property="og:description" content="Mapa e lista das seções que mudaram de local para o 2º turno, com dados do TSE atualizados diariamente.">
+  <meta name="theme-color" content="#f5f3ee" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='13' r='7' fill='%23c2410c'/><path d='M16 31 9 18h14z' fill='%23c2410c'/><circle cx='16' cy='13' r='3' fill='white'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="wrap">
+      <p class="sobretitulo">Eleições 2026 · 2º turno · domingo, 25 de outubro</p>
+      <h1>Seu local de votação mudou?</h1>
+      <p class="lead">Seções eleitorais que vão votar em <strong>outro endereço</strong> no 2º turno, segundo a lista publicada pelo TSE. Procure sua cidade, seu local ou o número da sua seção.</p>
+      <div class="acoes">
+        <a class="botao" href="https://www.tse.jus.br/servicos-eleitorais/autoatendimento-eleitoral#/atendimento-eleitor/onde-votar" target="_blank" rel="noopener">Confirmar meu local no TSE ↗</a>
+        <span class="carimbo" id="carimbo">Carregando dados…</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="t-resumo" class="bloco">
+      <h2 id="t-resumo" class="vh">Resumo</h2>
+      <div class="kpis" id="kpis"></div>
+    </section>
+
+    <section aria-labelledby="t-estados" class="bloco">
+      <div class="bloco-cab">
+        <h2 id="t-estados">Alterações por estado</h2>
+        <p class="nota">Número de seções que mudaram de local. Toque em um estado para filtrar o mapa e a lista.</p>
+      </div>
+      <div class="estados">
+        <div class="grade-uf" id="grade-uf" role="group" aria-label="Mapa de estados"></div>
+        <ol class="barras" id="barras"></ol>
+      </div>
+      <div class="legenda" id="legenda"></div>
+    </section>
+
+    <section aria-labelledby="t-busca" class="bloco explorar">
+      <h2 id="t-busca" class="vh">Mapa e lista de locais alterados</h2>
+      <div class="filtros" role="search">
+        <label class="campo busca">
+          <span class="vh">Buscar</span>
+          <input id="busca" type="search" placeholder="Cidade, local de votação, zona ou nº da seção" autocomplete="off">
+        </label>
+        <label class="campo">
+          <span class="vh">Estado</span>
+          <select id="filtro-uf"><option value="">Todos os estados</option></select>
+        </label>
+        <label class="check">
+          <input id="ocultar-mesma-rua" type="checkbox">
+          <span>Ocultar mudanças no mesmo endereço ou rua</span>
+        </label>
+        <button class="limpar" id="limpar" type="button" hidden>Limpar filtros</button>
+      </div>
+
+      <div class="painel">
+        <div class="mapa-wrap">
+          <div id="mapa" aria-label="Mapa dos municípios com locais alterados"></div>
+          <p class="mapa-aviso" id="mapa-aviso" hidden></p>
+          <p class="nota mapa-nota">Cada ponto marca a cidade, não o prédio exato. O tamanho do ponto é proporcional ao número de seções alteradas.</p>
+        </div>
+        <div class="lista-wrap">
+          <p class="contagem" id="contagem" aria-live="polite"></p>
+          <ol class="lista" id="lista"></ol>
+          <button class="mais" id="mais" type="button" hidden>Mostrar mais</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloco sobre" aria-labelledby="t-sobre">
+      <h2 id="t-sobre">Sobre estes dados</h2>
+      <ul>
+        <li><strong>Fonte:</strong> arquivo “Seções Eleitorais Alteradas no Segundo Turno”, do painel de Capilaridade do Portal de Estatísticas do TSE (<a href="https://sig.tse.jus.br/ords/dwapr/r/seai/sig-eleicao-eleitorado/painel-capilaridade" target="_blank" rel="noopener">sig.tse.jus.br</a>). A lista é atualizada pelo TSE conforme as zonas eleitorais registram mudanças.</li>
+        <li><strong>Endereços:</strong> vêm dos dados de votação por seção do 1º turno. Quando o novo local não funcionou no 1º turno, o endereço dele ainda não está disponível e aparece como “não informado”.</li>
+        <li><strong>“Mesmo endereço ou rua”:</strong> casos em que o novo local fica no mesmo endereço, na mesma rua ou no mesmo povoado do anterior. A comparação é feita pelo texto do endereço e pode errar quando a grafia é muito diferente.</li>
+        <li><strong>Mapa:</strong> os pontos ficam no centro de cada município, não no prédio.</li>
+        <li>Esta é uma página independente, <strong>não oficial</strong>. A informação válida é a do TSE: confira seu local no <a href="https://www.tse.jus.br/servicos-eleitorais/autoatendimento-eleitoral#/atendimento-eleitor/onde-votar" target="_blank" rel="noopener">Autoatendimento Eleitoral</a> ou no aplicativo e-Título antes de sair de casa.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap"><span id="rodape-arquivo"></span></div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
