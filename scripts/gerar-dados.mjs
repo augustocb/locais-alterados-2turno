@@ -209,9 +209,14 @@ async function main() {
     ?? enderecos.porMunicipio.get(`${uf}|${norm(mun)}|${norm(local)}`) ?? null;
 
   // agrupa por mudança (mesmo local de origem → mesmo destino)
+  const UF_POR_CODIGO_INV = new Set(Object.values(UF_POR_CODIGO));
+  let ignoradas = 0;
   const grupos = new Map();
   for (const r of linhas) {
     if (r.nm_pais && norm(r.nm_pais) !== 'BRASIL') continue; // exterior não entra no mapa
+    if (!UF_POR_CODIGO_INV.has(r.sg_uf)) continue;               // "ZZ" = exterior
+    // alguns arquivos do TSE trazem todas as seções do país; só interessam as que têm local novo
+    if (!r.nm_local_votacao_final || norm(r.nm_local_votacao_final) === norm(r.nm_local_votacao_inicial)) { ignoradas++; continue; }
     const uf = r.sg_uf, zona = Number(r.nr_zona);
     const k = [uf, r.nm_municipio, zona, r.nm_local_votacao_inicial, r.nm_local_votacao_final].join('|');
     if (!grupos.has(k)) {
@@ -262,7 +267,9 @@ async function main() {
   fs.mkdirSync(path.dirname(SAIDA), { recursive: true });
   fs.writeFileSync(SAIDA, JSON.stringify(saida));
 
+  if (!mudancas.length) throw new Error(`Nenhuma seção com local novo em ${tse.nome}. Confira se é o arquivo certo do TSE.`);
   const t = saida.totais;
+  if (ignoradas) console.log(`  (${ignoradas.toLocaleString('pt-BR')} linhas sem mudança de local foram ignoradas)`);
   console.log(`✓ ${tse.nome}: ${t.secoes} seções, ${t.mudancas} mudanças de local, ${t.municipios} municípios, ${t.ufs} UFs`);
   console.log(`✓ Endereço do novo local encontrado em ${mudancas.filter((m) => m.endPara).length} de ${mudancas.length} mudanças`);
   if (municipios.size && semCoord.size) {
